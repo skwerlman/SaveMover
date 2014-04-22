@@ -22,8 +22,7 @@ Let's say you have a 128GB SSD. You put your OS there, and put your games on ano
 
 ##Usage
 ####Requirements
-* 32- or 64-bit Windows
-* Your Windows must be newer than Windows 95 (but, seriously, whose isn't?)
+* Windows newer than Windows 95 (but, seriously, whose isn't?)
 * 2 or more hard drives
 * At least 80 KB of disk space for this program
 * 3 MB RAM
@@ -39,3 +38,4 @@ Let's say you have a 128GB SSD. You put your OS there, and put your games on ano
 5. After confirming that you entered the correct info, press enter again.
 6. That's it!
 
+Your saves will be located at DRIVELETTER:\Savegames
