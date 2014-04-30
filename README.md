@@ -1,4 +1,4 @@
-SaveMover-v0.1.1-alpha
+SaveMover-v0.2.0-alpha
 ======
 Moves a save directory from it's default location to another drive, leaving a symlink in its wake.
 
