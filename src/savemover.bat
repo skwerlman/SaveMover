@@ -1,5 +1,5 @@
 @ECHO off
-:: savemover-v0.2.0-alpha
+:: savemover-v0.2.1-alpha
 :: Moves a save directory from it's default location to another drive, leaving a symlink in its wake.
 :: Copyright (C) 2014 Skwerlman
 :: 
@@ -23,10 +23,10 @@
 :: VARS
 :: %DRIVELETTER% is the drive letter of the target drive
 :: %FOLDERNAME% is the name of the file to Symlink
-:: %DATAPATH% is always AppData\skwerlman\savemover
+:: %DATAPATH% is always %AppData%\skwerlman\savemover
 
 :: Startup message
-ECHO SaveMover 0.2.0-alpha  Copyright (C) 2014  Skwerlman
+ECHO SaveMover 0.2.1-alpha  Copyright (C) 2014  Skwerlman
 ECHO This program comes with ABSOLUTELY NO WARRANTY; see LICENSE for details.
 ECHO This is free software, and you are welcome to redistribute it
 ECHO under certain conditions; see LICENSE for details. You should have received a
@@ -86,8 +86,9 @@ IF NOT [%1]==[] (
 		SET DRIVELETTER=%1
 		START /B LOG DRIVELETTER=%DRIVELETTER%
 		SET FOLDERNAME=%2
-		START /B LOG FOLDERNAME=%FOLDERNAME%
-		GOTO have_2_inputs
+		START /B LOG FOLDERNAME=%FOLDERNAME%\
+		SET NOPAUSE=1
+		GOTO have_inputs
 	)
 	:: User tried to use cmdline, but didn't provide both inputs, so we ask for the second one
 	ECHO What is the name of the folder you'd like to perform this action on?
@@ -114,10 +115,16 @@ ECHO before hitting enter.
 ECHO.
 ECHO The actions to be performed are:
 ECHO ROBOCOPY /E /MOV /COPY:DATSOU /NP /LOG:robocopy.log "%USERPROFILE%\Documents\My Games\%FOLDERNAME%" "%DRIVELETTER%:\Savegames\%FOLDERNAME%"
-ECHO RD /S /Q "%USERPROFILE%\Documents\My Games\%FOLDERNAME%"
-ECHO MKLINK /d "%USERPROFILE%\Documents\My Games\%FOLDERNAME%" "%DRIVELETTER%:\Savegames\%FOLDERNAME%"
+ECHO     (Copies "%USERPROFILE%\Documents\My Games\%FOLDERNAME%" to "%DRIVELETTER%:\Savegames\%FOLDERNAME%")
 ECHO.
-ECHO If you've made a mistake, hit Control-C and try again.
+ECHO RD /S /Q "%USERPROFILE%\Documents\My Games\%FOLDERNAME%"
+ECHO     (Deletes "%USERPROFILE%\Documents\My Games\%FOLDERNAME%")
+ECHO.
+ECHO MKLINK /d "%USERPROFILE%\Documents\My Games\%FOLDERNAME%" "%DRIVELETTER%:\Savegames\%FOLDERNAME%"
+ECHO     (Creates a symlink from "%USERPROFILE%\Documents\My Games\%FOLDERNAME%" to "%DRIVELETTER%:\Savegames\%FOLDERNAME%")
+ECHO.
+ECHO.
+ECHO If you've made a mistake, hit Control-C now and try again.
 :: Sleep for 3 sec by pinging a non-existant IP with a T/O of 3k ms
 PING 192.0.2.2 -n 1 -w 3000 >NUL
 PAUSE
@@ -194,7 +201,3 @@ ECHO and folder specified.
 CD %OLDDIRPATH%
 PAUSE
 EXIT 0
-
-:have_2_inputs
-SET NOPAUSE=1
-GOTO have_inputs
